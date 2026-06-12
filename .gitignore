@@ -1,0 +1,13 @@
+# Ignore Virtual Environment
+venv/
+env/
+
+# Ignore Python Cache
+__pycache__/
+
+# Ignore Streamlit Secrets Explicitly
+.streamlit/
+.streamlit/secrets.toml
+
+# Ignore generated audio files
+speech.mp3
