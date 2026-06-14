@@ -57,7 +57,7 @@ st.sidebar.success("🟢 **AI Engine:** \nGemini 1.5 Flash Connected")
 st.sidebar.info("📚 **Game State:** \nLocal JSON Memory Synced")
 st.sidebar.warning("⚡ **In-Memory Cache:** \nActive (Latency < 120ms)")
 st.sidebar.divider()
-st.sidebar.caption("Built for SH Hacks V1 🚀")
+st.sidebar.caption("Built for DSH Hacks V1 🚀")
 # ---------------------------------------------
 
 # 3. Main UI Header
