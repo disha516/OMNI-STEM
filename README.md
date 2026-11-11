@@ -38,8 +38,8 @@ flowchart TB
 
     %% Tab 2 Flow
     T2 --> RPG["⚙️ RPG Engine: Generates Eco-Quests based on inventory"]
-    RPG --> Logic["🧠 AI Verifies Physics Logic of User's Answer"]
-    Logic -->|Correct Answer| XP["📈 XP Updated & Saved (JSON)"]
+    RPG --> Logic["🧠 AI Provides Feedback on the User's Answer"]
+    Logic --> XP["📈 Prototype awards 50 XP after submission"]
 
     %% Tab 3 Flow
     T3 --> CAD["📐 Select Mechanical Part"]
@@ -59,7 +59,7 @@ flowchart TB
 
 **How a query flows based on your module:**
 1. **Camera Scan:** You upload a photo. The AI detects useful household scrap and provides a step-by-step blueprint to build a prototype, explained in your preferred language (e.g., Hinglish).
-2. **RPG Mode:** You manually enter your materials. The AI acts as a Game Master, gives you a quest, and verifies your mechanical logic. Correct answers grant XP.
+2. **RPG Mode:** You manually enter your materials. The AI acts as a Game Master, gives you a quest, and verifies your mechanical logic. Submitting a non-empty response currently awards 50 XP after the evaluation call, regardless of the evaluation's correctness. This is a prototype limitation and should not be interpreted as correctness-based scoring.
 3. **Virtual Lab:** You select a virtual part and learn 3D CAD constraints (like Mate/Flush) without needing physical materials.
 
 ---
@@ -71,7 +71,7 @@ Built with a monolithic architecture for rapid prototyping and seamless full-sta
 | Layer | Technology |
 |---|---|
 | 🖥️ Framework | Streamlit (Python Full-Stack UI) |
-| 🧠 Core Intelligence | Google Gemini 1.5 Flash API (Multimodal: Text & Vision) |
+| 🧠 Core Intelligence | Google Gemini 2.5 Flash API (Multimodal: Text & Vision) |
 | 🗄️ Database | Local JSON File System (State Management) |
 | ☁️ Deployment | Streamlit Community Cloud |
 
@@ -139,3 +139,9 @@ Driven by the belief that quality engineering education should cost $0.
 
 ## 📜 License
 This project is open-source and available under the **MIT License**.
+
+
+## Implementation Notes
+
+- XP is currently awarded after a non-empty answer is submitted; the application does not yet condition XP on whether the AI evaluation marks the answer correct. The README describes this current prototype behavior rather than claiming correctness-based rewards.
+- The app stores game progress in a local JSON file. This is suitable for a simple prototype, but it is not a multi-user database or a production persistence layer.
