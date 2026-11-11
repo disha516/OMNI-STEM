@@ -13,9 +13,9 @@ Built for **SH Hacks V1** (Theme: AI x STEM Education).
 ## ✨ Key Features
 
 * **📸 AI Vision Engine:** Don't have a robotics kit? No problem. Upload a photo of plastic bottles, DC motors, or cardboard. The AI extracts the materials and suggests a scientifically viable engineering prototype (e.g., River Surface Water Cleaner).
-* **🎮 "Jugaad Master" RPG Loop:** Learning is gamified. The engine acts as a Dungeon Master, giving you building quests. You earn XP by correctly answering real-world physical logic (like Center of Gravity or Torque).
+* **🎮 "Jugaad Master" RPG Loop:** Learning is gamified. The engine acts as a Dungeon Master, giving you building quests. After a non-empty design response is submitted and the AI evaluation call completes, the prototype awards 50 XP; scoring is not currently conditional on correctness.
 * **🛠️ Virtual CAD Lab Concepts:** Teaches industrial-level design logic (Assembly constraints like Mate and Flush) for students who want to transition from physical cardboard to 3D software.
-* **💾 Persistent Game State:** Uses a lightweight local JSON database to save student progression, inventory, and XP across sessions.
+* **💾 Persistent Game State:** Uses a local JSON file to save the player's XP and level across sessions; inventory persistence is not implemented.
 
 ---
 
@@ -73,7 +73,7 @@ Built with a monolithic architecture for rapid prototyping and seamless full-sta
 | 🖥️ Framework | Streamlit (Python Full-Stack UI) |
 | 🧠 Core Intelligence | Google Gemini 2.5 Flash API (Multimodal: Text & Vision) |
 | 🗄️ Database | Local JSON File System (State Management) |
-| ☁️ Deployment | Streamlit Community Cloud |
+| ☁️ Deployment | Streamlit Community Cloud (deployment status not independently verified) |
 
 ---
 
@@ -82,7 +82,7 @@ Built with a monolithic architecture for rapid prototyping and seamless full-sta
 ```text
 ├── app.py                  # Main application file (UI, API calls, Game Logic)
 ├── requirements.txt        # Python dependencies
-├── save_game.json          # Persistent lightweight database for XP and User State
+├── save_game.json          # Local file used to persist XP and level when created
 ├── .gitignore              # Secures API keys and virtual environments
 └── .streamlit/             # Hidden folder (contains secrets.toml for Gemini API Key)
 ```
@@ -117,8 +117,8 @@ streamlit run app.py
 
 ## 🚧 Challenges Solved
 
-* **State Management in Streamlit:** Streamlit naturally reruns the script on every interaction. Implemented a robust `st.session_state` combined with a persistent JSON file to ensure the RPG game loop and XP don't reset unexpectedly.
-* **Multimodal AI Prompting:** Tuning the Gemini 1.5 prompt to act strictly as a "Game Master" rather than a generic chatbot, forcing it to test the user's mechanical logic instead of just giving away the answers.
+* **State Management in Streamlit:** Streamlit naturally reruns the script on every interaction. Uses `st.session_state` during a session and a local JSON file to persist XP and level. This is prototype-level persistence, not a multi-user database.
+* **Multimodal AI Prompting:** Tuning the Gemini 2.5 Flash prompt to act strictly as a "Game Master" rather than a generic chatbot, forcing it to test the user's mechanical logic instead of just giving away the answers.
 
 ---
 
@@ -131,7 +131,7 @@ streamlit run app.py
 
 ## 👩‍💻 Built By
 **Disha**
-*Solo Developer | First-Year Electrical Engineering Student, IIT Delhi* ⚡
+*Project developer | Electrical Engineering, IIT Delhi* ⚡
 
 Driven by the belief that quality engineering education should cost $0.
 
