@@ -13,9 +13,9 @@ Built for **SH Hacks V1** (Theme: AI x STEM Education).
 ## ✨ Key Features
 
 * **📸 AI Vision Engine:** Don't have a robotics kit? No problem. Upload a photo of plastic bottles, DC motors, or cardboard. The AI extracts the materials and suggests a scientifically viable engineering prototype (e.g., River Surface Water Cleaner).
-* **🎮 "Jugaad Master" RPG Loop:** Learning is gamified. The engine acts as a Dungeon Master, giving you building quests. You earn XP by correctly answering real-world physical logic (like Center of Gravity or Torque).
+* **🎮 "Jugaad Master" RPG Loop:** Learning is gamified. The engine acts as a Dungeon Master, giving you building quests. After a non-empty design response is submitted and the AI evaluation call completes, the prototype awards 50 XP; scoring is not currently conditional on correctness.
 * **🛠️ Virtual CAD Lab Concepts:** Teaches industrial-level design logic (Assembly constraints like Mate and Flush) for students who want to transition from physical cardboard to 3D software.
-* **💾 Persistent Game State:** Uses a lightweight local JSON database to save student progression, inventory, and XP across sessions.
+* **💾 Persistent Game State:** Uses a local JSON file to save the player's XP and level across sessions; inventory persistence is not implemented.
 
 ---
 
@@ -38,8 +38,8 @@ flowchart TB
 
     %% Tab 2 Flow
     T2 --> RPG["⚙️ RPG Engine: Generates Eco-Quests based on inventory"]
-    RPG --> Logic["🧠 AI Verifies Physics Logic of User's Answer"]
-    Logic -->|Correct Answer| XP["📈 XP Updated & Saved (JSON)"]
+    RPG --> Logic["🧠 AI Provides Feedback on the User's Answer"]
+    Logic --> XP["📈 Prototype awards 50 XP after submission"]
 
     %% Tab 3 Flow
     T3 --> CAD["📐 Select Mechanical Part"]
@@ -59,7 +59,7 @@ flowchart TB
 
 **How a query flows based on your module:**
 1. **Camera Scan:** You upload a photo. The AI detects useful household scrap and provides a step-by-step blueprint to build a prototype, explained in your preferred language (e.g., Hinglish).
-2. **RPG Mode:** You manually enter your materials. The AI acts as a Game Master, gives you a quest, and verifies your mechanical logic. Correct answers grant XP.
+2. **RPG Mode:** You manually enter your materials. The AI acts as a Game Master, gives you a quest, and verifies your mechanical logic. Submitting a non-empty response currently awards 50 XP after the evaluation call, regardless of the evaluation's correctness. This is a prototype limitation and should not be interpreted as correctness-based scoring.
 3. **Virtual Lab:** You select a virtual part and learn 3D CAD constraints (like Mate/Flush) without needing physical materials.
 
 ---
@@ -71,9 +71,9 @@ Built with a monolithic architecture for rapid prototyping and seamless full-sta
 | Layer | Technology |
 |---|---|
 | 🖥️ Framework | Streamlit (Python Full-Stack UI) |
-| 🧠 Core Intelligence | Google Gemini 1.5 Flash API (Multimodal: Text & Vision) |
+| 🧠 Core Intelligence | Google Gemini 2.5 Flash API (Multimodal: Text & Vision) |
 | 🗄️ Database | Local JSON File System (State Management) |
-| ☁️ Deployment | Streamlit Community Cloud |
+| ☁️ Deployment | Streamlit Community Cloud (deployment status not independently verified) |
 
 ---
 
@@ -82,7 +82,7 @@ Built with a monolithic architecture for rapid prototyping and seamless full-sta
 ```text
 ├── app.py                  # Main application file (UI, API calls, Game Logic)
 ├── requirements.txt        # Python dependencies
-├── save_game.json          # Persistent lightweight database for XP and User State
+├── save_game.json          # Local file used to persist XP and level when created
 ├── .gitignore              # Secures API keys and virtual environments
 └── .streamlit/             # Hidden folder (contains secrets.toml for Gemini API Key)
 ```
@@ -117,8 +117,8 @@ streamlit run app.py
 
 ## 🚧 Challenges Solved
 
-* **State Management in Streamlit:** Streamlit naturally reruns the script on every interaction. Implemented a robust `st.session_state` combined with a persistent JSON file to ensure the RPG game loop and XP don't reset unexpectedly.
-* **Multimodal AI Prompting:** Tuning the Gemini 1.5 prompt to act strictly as a "Game Master" rather than a generic chatbot, forcing it to test the user's mechanical logic instead of just giving away the answers.
+* **State Management in Streamlit:** Streamlit naturally reruns the script on every interaction. Uses `st.session_state` during a session and a local JSON file to persist XP and level. This is prototype-level persistence, not a multi-user database.
+* **Multimodal AI Prompting:** Tuning the Gemini 2.5 Flash prompt to act strictly as a "Game Master" rather than a generic chatbot, forcing it to test the user's mechanical logic instead of just giving away the answers.
 
 ---
 
@@ -131,7 +131,7 @@ streamlit run app.py
 
 ## 👩‍💻 Built By
 **Disha**
-*Solo Developer | First-Year Electrical Engineering Student, IIT Delhi* ⚡
+*Project developer | Electrical Engineering, IIT Delhi* ⚡
 
 Driven by the belief that quality engineering education should cost $0.
 
@@ -139,3 +139,9 @@ Driven by the belief that quality engineering education should cost $0.
 
 ## 📜 License
 This project is open-source and available under the **MIT License**.
+
+
+## Implementation Notes
+
+- XP is currently awarded after a non-empty answer is submitted; the application does not yet condition XP on whether the AI evaluation marks the answer correct. The README describes this current prototype behavior rather than claiming correctness-based rewards.
+- The app stores game progress in a local JSON file. This is suitable for a simple prototype, but it is not a multi-user database or a production persistence layer.
